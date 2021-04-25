@@ -1,17 +1,15 @@
-//!No idempotency gaurds on purpose
+//!No idempotency guards on purpose
 
 #include <stdlib.h>
 #include <stdint.h>
 #include <assert.h>
 
 #ifndef DATA_TYPE
-	#error Requires DATA_TYPE to be defined 
+	#error Requires DATA_TYPE to be defined
     #define DATA_TYPE int
 #endif
 
-#define _CAT2(x,y) x##y
-#define CAT2(x,y) _CAT2(x,y)
-#define CAT3(x,y,z) CAT2(x,CAT2(y,z))
+#include "macro_utils.h"
 
 #ifndef VECTOR
 	#define VECTOR CAT2(vector_, DATA_TYPE)
@@ -37,7 +35,6 @@ typedef struct VECTOR{
 	DATA_TYPE (*get)(struct VECTOR*, uint32_t);
 	void (*set)(struct VECTOR*, DATA_TYPE, uint32_t);
 	void (*erase)(struct VECTOR*, uint32_t);
-
 } VECTOR;
 
 void createVector(VECTOR* v, uint32_t n);
