@@ -8,7 +8,7 @@
 typedef struct edge_unit
 {
     int start_index, end_index;
-    int weight;
+    float weight;
     char edge_name[NAME_LEN];
 } edge;
 
