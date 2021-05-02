@@ -10,6 +10,6 @@ int main(void)
     scanf("%d%d%d", &num_intersections, &num_streets, &num_cars);
 
     edge *Edge_Table = CreateTable();
-    
+
     ReadInput_1 (num_streets,Edge_Table);
 }
