@@ -41,7 +41,7 @@ void Insert(int start_index, int end_index, char name[NAME_LEN], edge *Edge_Tabl
     {
         key = (hash_name + k * k) % MAX_INPUTS;
        
-        if (!Edge_Table[key].start_index)
+        if (Edge_Table[key].edge_name[0]=='\0')
         {
             strcpy(Edge_Table[key].edge_name, name);
             Edge_Table[key].start_index = start_index;
@@ -49,6 +49,18 @@ void Insert(int start_index, int end_index, char name[NAME_LEN], edge *Edge_Tabl
             return;
         }
     }
+}
+edge* CreateTable()
+{
+    edge* table;
+    table=(edge*)malloc(MAX_INPUTS*sizeof(edge));
+    for (int i = 0; i < MAX_INPUTS; i++)
+    {
+        table[i].edge_name=(char*)malloc(sizeof(char)*NAME_LEN);
+        table[i].edge_name[0]='\0';
+       
+    }
+    return table;
 }
 
 void ReadInput_1 (int num_streets,edge* Edge_Table)

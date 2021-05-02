@@ -9,12 +9,7 @@ int main(void)
    
     scanf("%d%d%d", &num_intersections, &num_streets, &num_cars);
 
-    edge *Edge_Table = (edge *)malloc(MAX_INPUTS * sizeof(edge));
-
-    for (int i = 0; i < MAX_INPUTS; i++)
-    {
-        Edge_Table[i].edge_name[0] = '\0';
-    }
-
+    edge *Edge_Table = CreateTable();
+    
     ReadInput_1 (num_streets,Edge_Table);
 }
