@@ -47,6 +47,7 @@ void Insert(int start_index, int end_index, char name[NAME_LEN], edge *Edge_Tabl
             Edge_Table[key].start_index = start_index;
             Edge_Table[key].end_index = end_index;
             return;
+            
         }
     }
 }
