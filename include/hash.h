@@ -17,6 +17,10 @@ void Insert(int start_index, int end_index, char name[NAME_LEN], edge *Edge_Tabl
 
 void ReadInput_1 (int num_streets, edge* Edge_Table);
 
+void AddWeight(char name[NAME_LEN], edge *Edge_Table);
+
+void readpart2(int num_cars,edge *Edge_Table);
+
  edge* CreateTable();
 
 #endif
