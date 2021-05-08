@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdio.h>
 
+// Generates a key for an edge using Street name (String Hashing)
+
 unsigned long int GetHash(char *name_str)
 {
     // unsigned long hash = 0 ;
@@ -32,6 +34,9 @@ unsigned long int GetHash(char *name_str)
     return hash;
 }
 
+// Inserts start index , end index and name of a edge / street into hash table
+// Inserts into table by performing Quadratic hashing
+
 void Insert(int start_index, int end_index, char name[NAME_LEN], edge *Edge_Table)
 {
     unsigned long int hash_name, key;
@@ -50,6 +55,9 @@ void Insert(int start_index, int end_index, char name[NAME_LEN], edge *Edge_Tabl
         }
     }
 }
+
+// Creates a Hash table for storing starting and ending vertex of an edge along with edge name and weight of edge .
+
 edge *CreateTable()
 {
     edge *table;
@@ -63,9 +71,12 @@ edge *CreateTable()
     return table;
 }
 
+// Takes number of edges , Hash Table and Pointer to input file as arguments
+// Takes starting vertex , ending vertex and street name from input file and inserts them into hash table .
+
 void ReadInput_1(int num_streets, edge *Edge_Table, FILE *fptr)
 {
-    int start, end, time;
+    int start, end, time; //time is not used anywhere (input data has time , took input to avoid errors )
     char name[NAME_LEN];
 
     for (int i = 0; i < num_streets; i++)
@@ -75,19 +86,5 @@ void ReadInput_1(int num_streets, edge *Edge_Table, FILE *fptr)
         fscanf(fptr, "%s", name);
         fscanf(fptr, "%d", &time);
         Insert(start, end, name, Edge_Table);
-    }
-}
-void Traffic_Output(edge *Edge_Table, FILE *ptr)
-{
-    printf("Enter the output file name\n");
-    char output[50];
-    scanf("%s", output);
-    ptr = freopen(output, "w", stdout);
-    ptr = freopen(output, "a", stdout);
-    fprintf(ptr, "Start\tEnd \tStreetName\tWeight\n\n");
-    for (int i = 0; i < MAX_INPUTS; i++)
-    {
-        if (Edge_Table[i].edge_name[0] != '\0')
-            fprintf(ptr, "%d\t\t%d\t\t%s\t\t%g\n", Edge_Table[i].start_index, Edge_Table[i].end_index, Edge_Table[i].edge_name, Edge_Table[i].weight);
     }
 }
