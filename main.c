@@ -12,4 +12,6 @@ int main(void)
     edge *Edge_Table = CreateTable();
 
     ReadInput_1 (num_streets,Edge_Table);
+    
+    readpart2 (num_cars,Edge_Table);
 }
