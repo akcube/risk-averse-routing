@@ -11,6 +11,7 @@
 #endif
 
 #include "macro_utils.h"
+#include "heap_utils.h"
 
 #ifndef HEAP
 	#define HEAP CAT2(heap_, DATA_TYPE)
@@ -21,26 +22,11 @@
 	#define __swap CAT3(__, DATA_TYPE, __swap)
 	#define __HEAP_SIFTDOWN CAT3(__, DATA_TYPE, __heap__siftdown)
 	#define __heapInv CAT3(__, DATA_TYPE, __invariant)
+	#define __EMPTY CAT3(__, DATA_TYPE, __heap__empty)
 	#define createHeap CAT3(create_, DATA_TYPE, _heap)
 	#define destroyHeap CAT3(destroy_, DATA_TYPE, _heap)
 #endif
 
-#ifndef __HEAP_UTIL_FUNCS
-#define __HEAP_UTIL_FUNCS
-	
-	int getRight(int);
-	int getLeft(int);
-	int getParent(int);
-	int max(int, int);
-	int min(int, int);
-
-	inline int getRight(int i){	return (i<<1)+2; }
-	inline int getLeft(int i){ return (i<<1)+1; }
-	inline int getParent(int i){ return ((i-1)>>1)*(i!=0); }
-	inline int max(int a, int b){ return (a>b)?a:b; }
-	inline int min(int a, int b){ return (a<b)?a:b; }
-
-#endif
 
 typedef struct HEAP{
 	DATA_TYPE *arr;
@@ -50,10 +36,22 @@ typedef struct HEAP{
 	bool (*cmpfunc)(DATA_TYPE a, DATA_TYPE b);
 	DATA_TYPE (*getTop)(struct HEAP *heap);
 	DATA_TYPE (*pop)(struct HEAP *heap);
+	bool (*empty)(struct HEAP *heap);
 } HEAP;
 
-void createHeap(uint32_t n, bool (*cmpfunc)(DATA_TYPE, DATA_TYPE), HEAP *heap);
-void destroyHeap(HEAP *heap);
+void createHeap(uint32_t n, bool (*cmpfunc)(DATA_TYPE, DATA_TYPE), HEAP *heap) __attribute__((weak));
+void destroyHeap(HEAP *heap) __attribute__((weak));
+void __swap(DATA_TYPE *a, DATA_TYPE *b)__attribute__((weak));
+DATA_TYPE __HEAPGETTOP(HEAP *heap)__attribute__((weak));
+DATA_TYPE __heapInv(DATA_TYPE a, DATA_TYPE b, HEAP *h)__attribute__((weak));
+void __HEAPIFY(int id, HEAP *h)__attribute__((weak));
+void __HEAPPUSH(DATA_TYPE val, HEAP *heap)__attribute__((weak));
+void __HEAP_SIFTDOWN(int id, HEAP *h)__attribute__((weak));
+DATA_TYPE __HEAPPOP(HEAP *heap)__attribute__((weak));
+void createHeap(uint32_t n, bool (*cmpfunc)(DATA_TYPE, DATA_TYPE), HEAP *heap)__attribute__((weak));
+void destroyHeap(HEAP *heap)__attribute__((weak));
+bool __EMPTY(HEAP *heap) __attribute__((weak));
+
 
 void __swap(DATA_TYPE *a, DATA_TYPE *b){
 	DATA_TYPE temp = *a;
@@ -69,6 +67,8 @@ DATA_TYPE __HEAPGETTOP(HEAP *heap){
 DATA_TYPE __heapInv(DATA_TYPE a, DATA_TYPE b, HEAP *h){
 	return (h->cmpfunc(a, b))?a:b;
 }
+
+bool __EMPTY(HEAP *heap){ return heap->size==0; }
 
 void __HEAPIFY(int id, HEAP *h){
 	while(h->cmpfunc(h->arr[id], h->arr[getParent(id)])){
@@ -122,7 +122,7 @@ void __HEAP_SIFTDOWN(int id, HEAP *h){
 }
 
 DATA_TYPE __HEAPPOP(HEAP *heap){
-	if(heap->size==0) return -1;
+	assert(heap->size > 0);
 	DATA_TYPE top = __HEAPGETTOP(heap);
 	__swap(&(heap->arr[0]), &(heap->arr[heap->size-1]));
 	heap->size--;
@@ -138,6 +138,7 @@ void createHeap(uint32_t n, bool (*cmpfunc)(DATA_TYPE, DATA_TYPE), HEAP *heap){
 	heap->pop = __HEAPPOP;
 	heap->getTop = __HEAPGETTOP;
 	heap->cmpfunc = cmpfunc;
+	heap->empty = __EMPTY;
 }
 
 void destroyHeap(HEAP *heap){

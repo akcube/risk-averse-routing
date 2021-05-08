@@ -37,8 +37,17 @@ typedef struct VECTOR{
 	void (*erase)(struct VECTOR*, uint32_t);
 } VECTOR;
 
-void createVector(VECTOR* v, uint32_t n);
-void destroyVector(VECTOR* v);
+void createVector(VECTOR* v, uint32_t n) __attribute__((weak));
+void destroyVector(VECTOR* v) __attribute__((weak));
+
+void __VECRESIZE(VECTOR* v, uint32_t tab_size) __attribute__((weak));
+void __VECPUSHBACK(VECTOR* v, DATA_TYPE data) __attribute__((weak));
+uint32_t __VECGETSIZE(VECTOR* v) __attribute__((weak));
+DATA_TYPE __VECGET(VECTOR* v, uint32_t i) __attribute__((weak));
+void __VECSET(VECTOR* v, DATA_TYPE data, uint32_t i) __attribute__((weak));
+void __VECERASE(VECTOR* v, uint32_t ind) __attribute__((weak));
+DATA_TYPE __VECPOPBACK(VECTOR* v) __attribute__((weak));
+
 
 void __VECRESIZE(VECTOR* v, uint32_t tab_size){
     v->arr = (DATA_TYPE*) realloc(v->arr, (tab_size)*(sizeof(DATA_TYPE)));
@@ -53,7 +62,7 @@ void __VECPUSHBACK(VECTOR* v, DATA_TYPE data){
     v->arr[v->cur_size++] = data;
 }
 
-uint32_t __VECSIZE(VECTOR* v){
+uint32_t __VECGETSIZE(VECTOR* v){
     return v->cur_size;
 }
 
@@ -96,7 +105,7 @@ void createVector(VECTOR* v, uint32_t n){
     v->cur_size = 0;
     v->table_size = n;
 
-    v->size = __VECSIZE;
+    v->size = __VECGETSIZE;
     v->push_back = __VECPUSHBACK;
     v->get = __VECGET;
     v->set = __VECSET;
