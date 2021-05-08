@@ -5,6 +5,8 @@
 #define NAME_LEN 10000
 #define MAX_INPUTS 100000
 
+// Adds 0.1 to a street's weight if a car passes through it 
+
 void AddWeight(char name[NAME_LEN], edge *Edge_Table)
 {
     unsigned long int hash_name, key;
@@ -21,6 +23,9 @@ void AddWeight(char name[NAME_LEN], edge *Edge_Table)
         }
     }
 }
+
+// Reads the street name from input file to calculate weight of each edge 
+
 void readpart2(int num_cars, edge *Edge_Table, FILE *fptr)
 {
     int path;
