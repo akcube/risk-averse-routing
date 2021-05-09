@@ -84,3 +84,40 @@ int *dijkstra(Graph *self, uint32_t s, int *p){
     return dis;
 }
 
+void assign_weights(Graph *self, uint32_t cars){
+    uint32_t path_len, temp, slen;
+    char road[32];
+    Hashtable *road_to_id = &(self->road_to_id);
+    for(int i=0; i<cars; i++){
+        scanf("%d", &path_len);
+        for(int i=0; i<path_len; i++){
+            scanf(" %n%s%n", &temp, road, &slen);
+            slen -= temp;
+            uint32_t idx = road_to_id->get(road_to_id, road, slen);
+            self->roads[idx].len++;
+            if(self->directed)
+                self->roads[idx+1].len++;
+        }
+    }
+}
+
+void create_graph(Graph *self, uint32_t n, uint32_t m, bool directed){
+    self->size = n;
+    self->edges = 0;
+    self->e_lim = m;
+    if(directed) self->e_lim *= 2;
+    self->strl = 0;
+    self->adj = calloc(n, sizeof(vector_int));
+    self->r_names = calloc(1, 32 * self->e_lim);
+    self->roads = malloc(sizeof(edge) * self->e_lim);
+    self->directed = directed;
+
+    for(int i=0; i<n; i++) 
+        create_int_vector(&self->adj[i], 4);
+    create_hash_table(&self->road_to_id, (m<<1));
+
+    self->read = graph_read;
+    self->dijkstra = dijkstra;
+    self->read_weights = assign_weights;
+}
+
