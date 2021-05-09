@@ -46,6 +46,22 @@ int get(Hashtable *self, void *key, uint32_t size){
     }
 }
 
+int delete(Hashtable *self, void *key, uint32_t size){
+    uint64_t hashval;
+    hashval = hash(key, size) & (self->table_size-1);
+
+    for(int k=0; ; k++){
+        uint64_t index = (hashval + k*k) & (self->table_size-1);
+        if(!self->buff[index].key) 
+            return -1;
+        if(memcmp(self->buff[index].key, key, size)==0){
+            free(self->buff[index].key);
+            self->buff[index].key = NULL;
+            return 0;
+        }
+    }
+}
+
 void create_hash_table(Hashtable *self, uint32_t table_size){
     table_size = (1 << (32 - __builtin_clz (table_size - 1)));
     self->table_size = table_size;
@@ -54,6 +70,7 @@ void create_hash_table(Hashtable *self, uint32_t table_size){
 
     self->get = get;
     self->insert = insert;
+    self->erase = delete;
 }
 
 void destroy_hash_table(Hashtable *self){
