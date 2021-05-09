@@ -32,3 +32,32 @@ bool insert(Hashtable *self, void *key, uint32_t size, int val)
     }
     return false;
 }
+
+int get(Hashtable *self, void *key, uint32_t size){
+    uint64_t hashval;
+    hashval = hash(key, size) & (self->table_size-1);
+
+    for(int k=0; ; k++){
+        uint64_t index = (hashval + k*k) & (self->table_size-1);
+        if(!self->buff[index].key) 
+            return -1;
+        if(memcmp(self->buff[index].key, key, size)==0)
+            return self->buff[index].value;
+    }
+}
+
+void create_hash_table(Hashtable *self, uint32_t table_size){
+    table_size = (1 << (32 - __builtin_clz (table_size - 1)));
+    self->table_size = table_size;
+    self->buff = (node*) calloc(1, sizeof(node)*table_size);
+    self->element_count = 0;
+
+    self->get = get;
+    self->insert = insert;
+}
+
+void destroy_hash_table(Hashtable *self){
+    free(self->buff);
+    self->element_count = 0;
+    self->table_size = 0;
+}
