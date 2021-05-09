@@ -20,6 +20,7 @@
 	#define __VECSET CAT3(__, DATA_TYPE, __vec__set)
 	#define __VECERASE CAT3(__, DATA_TYPE, __vec__erase)
 	#define __VECPOPBACK CAT3(__, DATA_TYPE, __vec__popback)
+    #define __VECREVERSE CAT3(__, DATA_TYPE, __vec__reverse)
 	#define createVector CAT3(create_, DATA_TYPE, _vector)
 	#define destroyVector CAT3(destroy_, DATA_TYPE, _vector)
 #endif
@@ -35,6 +36,7 @@ typedef struct VECTOR{
 	DATA_TYPE (*get)(struct VECTOR*, uint32_t);
 	void (*set)(struct VECTOR*, DATA_TYPE, uint32_t);
 	void (*erase)(struct VECTOR*, uint32_t);
+    void (*reverse)(struct VECTOR *v);
 } VECTOR;
 
 void createVector(VECTOR* v, uint32_t n) __attribute__((weak));
@@ -46,6 +48,7 @@ uint32_t __VECGETSIZE(VECTOR* v) __attribute__((weak));
 DATA_TYPE __VECGET(VECTOR* v, uint32_t i) __attribute__((weak));
 void __VECSET(VECTOR* v, DATA_TYPE data, uint32_t i) __attribute__((weak));
 void __VECERASE(VECTOR* v, uint32_t ind) __attribute__((weak));
+void __VECREVERSE(VECTOR *v) __attribute__((weak));;
 DATA_TYPE __VECPOPBACK(VECTOR* v) __attribute__((weak));
 
 
@@ -67,17 +70,21 @@ uint32_t __VECGETSIZE(VECTOR* v){
 }
 
 DATA_TYPE __VECGET(VECTOR* v, uint32_t i){
-	
 	assert(i>=0 && i<v->cur_size);
-    
     return v->arr[i];
 }
 
 void __VECSET(VECTOR* v, DATA_TYPE data, uint32_t i){
-
    	assert(i>=0 && i<v->cur_size);
-
     v->arr[i] = data;
+}
+
+void __VECREVERSE(VECTOR *v){
+    for(int i=0; i < (v->cur_size/2); i++){
+        DATA_TYPE t = v->arr[i];
+        v->arr[i] = v->arr[v->cur_size-i-1];
+        v->arr[v->cur_size-i-1] = t;
+    }
 }
 
 void __VECERASE(VECTOR* v, uint32_t ind){
@@ -111,6 +118,7 @@ void createVector(VECTOR* v, uint32_t n){
     v->set = __VECSET;
     v->erase = __VECERASE;
     v->pop_back = __VECPOPBACK;
+    v->reverse = __VECREVERSE;
 }
 
 void destroyVector(VECTOR *v){

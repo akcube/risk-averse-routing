@@ -15,6 +15,7 @@ typedef struct Hashtable{
 	uint32_t element_count;
 	bool (*insert)(struct Hashtable *self, void *key, uint32_t size, int val);
 	int (*get)(struct Hashtable *self, void *key, uint32_t size);
+	int (*erase)(struct Hashtable *self, void *key, uint32_t size);
 } Hashtable;
 
 void create_hash_table(Hashtable *self, uint32_t table_size);
