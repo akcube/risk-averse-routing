@@ -52,5 +52,6 @@ typedef struct Graph{
 } Graph;
 
 void create_graph(Graph *self, uint32_t n, uint32_t m, bool directed);
+void destroy_graph(Graph *self);
 
 #endif

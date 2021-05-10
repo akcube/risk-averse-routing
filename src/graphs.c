@@ -131,7 +131,7 @@ int *dijkstra(Graph *self, uint32_t s, pair *p){
         for(int i=0; i<adj[node].size(&adj[node]); i++){
             int e = adj[node].get(&adj[node], i);
             edge ed = self->roads[e];
-            uint32_t weight = ed.len*10 + ed.traffic*90;
+            uint32_t weight = (1LL*ed.len*121 + 1LL*ed.traffic*967)>>2;
             if(dis[node] + weight < dis[ed.to]){
                 if(p){
                     p[ed.to].first = node;
@@ -143,6 +143,7 @@ int *dijkstra(Graph *self, uint32_t s, pair *p){
         }
     }
     free(vis);
+    destroy_pair_heap(&pq);
     return dis;
 }
 
@@ -218,3 +219,11 @@ void create_graph(Graph *self, uint32_t n, uint32_t m, bool directed){
     self->getRoadName = getRoadName;
 }
 
+void destroy_graph(Graph *self){
+    for(int i=0; i<self->size; i++)
+        destroy_int_vector(&self->adj[i]);
+    free(self->adj);
+    free(self->r_names);
+    free(self->roads);
+    destroy_hash_table(&self->road_to_id);
+}

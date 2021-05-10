@@ -194,4 +194,6 @@ int main(int argc, char *argv[])
             }
         }
     }while(yes_no != 'q' && yes_no != 'Q');
+
+    destroy_graph(&G);
 }
