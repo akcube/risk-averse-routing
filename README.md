@@ -16,7 +16,8 @@ Clone the repo, and cd into it
 Run:
 1. `make`
 2. `mkdir src/data`
-3. `./routing [-d/-u] <inputfile.txt>`
+3. `mkdir src/obj`
+4. `./routing [-d/-u] <inputfile.txt>`
 
 Example: `./routing -d ../traffic-data/b.txt`
 
