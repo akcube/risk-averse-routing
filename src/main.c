@@ -125,8 +125,26 @@ int main(int argc, char *argv[])
                 case 'N':
                     road = path.pop_back(&path);
                     fprintf(pathptr, "%d ", road.first);
+                    uint32_t stri = G.roads[road.second].stri;
+                    printf("\nFrom node %d, travel via %s for %dm", road.first, &G.r_names[stri], G.roads[road.first].len);
+                    printf(" [%d paths left to cover.]\n", path.size(&path));
                     fflush(pathptr);
-                    system("python3 viz_random.py");
+                break;
+
+                case 'e':
+                case 'E':
+                    while(path.size(&path) > 0){
+                        road = path.pop_back(&path);
+                        fprintf(pathptr, "%d ", road.first);
+                        uint32_t stri = G.roads[road.second].stri;
+                        printf("\nFrom node %d, travel via %s for %dm", road.first, &G.r_names[stri], G.roads[road.first].len);
+                        printf(" [%d paths left to cover.]\n", path.size(&path));
+                        fflush(pathptr);
+                    }
+                    break;
+                case 'g':
+                case 'G':
+                    system("python3 viz_kamada.py");
                 break;
             }
         }

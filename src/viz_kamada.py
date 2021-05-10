@@ -18,9 +18,12 @@ data = textFile.read().split()
 for r in range(2,len(data)-1):
     pathList.append((int(data[r]),int(data[r+1])))
 
-Hnode = int(data[1])
+# Hnode = int(data[1])
 
-directed = int(data[0])
+# directed = int(data[0])
+
+directed = 0
+
 if directed==0:
     G = nx.Graph()
 else:
