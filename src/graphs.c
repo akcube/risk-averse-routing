@@ -50,7 +50,6 @@ int *dense_dijkstra(Graph *self, uint32_t s, int *p){
     
     bool *vis = calloc(1, sizeof(bool)*self->size);
     int *dis = malloc(sizeof(int)*self->size);
-    const int INFTY = 999999999;
     
     for(int i=0; i<self->size; i++) dis[i] = INFTY;
     
@@ -59,9 +58,9 @@ int *dense_dijkstra(Graph *self, uint32_t s, int *p){
     
     if(p) p[s] = s;
     
-    for(int j=0;j<n;j++){
+    for(int j=0;j<self->size;j++){
 		int node = -1;
-		for(int i=0;i<n;i++){
+		for(int i=0;i<self->size;i++){
 			if(vis[i]!=true && (node==-1 || dis[node]>dis[i])){
 				node = i;
 			}

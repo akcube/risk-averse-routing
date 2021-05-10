@@ -4,11 +4,11 @@ A risk averse routing algorithms on simulated city maps.
 ## Pre-requisites
 You need to have python3 with matplotlib, networkx and scipy installed beforehand.
 If not installed, run the following commands
-`sudo apt-get install python3`
-`sudo apt-get install python3-pip`
-`pip3 install matplotlib`
-`pip3 install networkx`
-`pip3 install scipy`
+1. `sudo apt-get install python3`
+2. `sudo apt-get install python3-pip`
+3. `pip3 install matplotlib`
+4. `pip3 install networkx`
+5. `pip3 install scipy`
 
 ## Usage
 

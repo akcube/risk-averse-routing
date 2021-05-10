@@ -27,6 +27,13 @@
 
 *   *   *   *   *   *   *   */
 
+void check_scanf(int CODE){
+    if(CODE <= 0){
+        printf("Invalid input. Error.\n");
+        exit(0);
+    }
+}
+
 int main(int argc, char *argv[])
 {
 
@@ -63,7 +70,10 @@ int main(int argc, char *argv[])
     // Read input
     int intersections, roads, cars, source, destination;
     char yes_no = 0;
-    fscanf(fptr, "%*d %d %d %d %*d", &intersections, &roads, &cars);
+
+    int RET_CODE;
+    RET_CODE = fscanf(fptr, "%*d %d %d %d %*d", &intersections, &roads, &cars);
+    check_scanf(RET_CODE);
 
     Graph G;
     create_graph(&G, intersections, roads, directed);
@@ -82,13 +92,15 @@ int main(int argc, char *argv[])
         exit(0);
     }
 
-    fprintf(pathptr, "%d 0\n", directed);
+    fprintf(pathptr, "%d\n", directed);
     do{
         if(!isRouting){
             printf("Source vertex: ");
-            scanf("%d", &source);
+            RET_CODE = scanf("%d", &source);
+            check_scanf(RET_CODE);
             printf("Destination vertex: ");
-            scanf("%d", &destination);
+            RET_CODE = scanf("%d", &destination);
+            check_scanf(RET_CODE);
             pair *p = calloc(1, sizeof(pair)*intersections);
             int *dis = G.dijkstra(&G, source, p);
             isRouting = true;
@@ -118,7 +130,9 @@ int main(int argc, char *argv[])
                 continue;
             }
 
-            scanf(" %c", &yes_no);
+            RET_CODE = scanf(" %c", &yes_no);
+            check_scanf(RET_CODE);
+
             pair road;
             switch(yes_no){
                 case 'n':
@@ -144,7 +158,7 @@ int main(int argc, char *argv[])
                     break;
                 case 'g':
                 case 'G':
-                    system("python3 viz_kamada.py");
+                    system("python3 viz_random.py");
                 break;
             }
         }
