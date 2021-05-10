@@ -126,6 +126,13 @@ int main(int argc, char *argv[])
             printf("Destination vertex: ");
             RET_CODE = scanf("%d", &destination);
             check_scanf(RET_CODE);
+
+            //Error handle invalid input
+            if(source >= G.size || destination >= G.size){
+                printf("Invalid input.\n");
+                exit(0);
+            }
+
             pair *p = calloc(1, sizeof(pair)*intersections);
 
             //Run dijkstra and pick complexity dynamically

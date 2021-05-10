@@ -1,0 +1,130 @@
+-1 30 89 40-1 
+19 15 foysy 82
+6 11 otkos 99
+17 23 icwev 43
+29 12 qduky 11
+21 15 xtwwe 30
+11 16 nxkhc 14
+17 0 qxtnc 20
+27 18 hzefh 15
+1 4 uheab 59
+20 22 phytt 13
+0 17 wzwyd 1
+24 10 wsjxd 58
+5 16 uspmo 55
+5 13 dwqac 45
+14 25 zweao 85
+13 16 jmhoe 41
+6 13 vrnlw 22
+1 16 obcrd 97
+18 16 zzhos 12
+2 11 yirdl 67
+10 24 kttil 64
+20 21 enqjq 45
+27 1 mwdeg 72
+15 21 oykzt 0
+9 13 hanuf 16
+25 23 nksfx 73
+26 23 eanmg 20
+17 4 udxnt 38
+18 10 gjwlh 30
+26 24 cobzy 48
+24 10 yzsgt 4
+20 1 rzelf 24
+3 1 hkzrc 91
+7 2 mrfkp 17
+12 3 oixjw 71
+14 18 aebfe 96
+24 27 areen 20
+0 17 lpncg 41
+21 24 lqhip 81
+4 27 nzwrp 74
+7 14 glwvf 25
+24 10 wjwfo 73
+1 17 fjlus 87
+11 26 ihxyy 24
+4 14 qobxv 97
+28 6 kozye 34
+27 19 lngew 45
+4 23 bjfzo 71
+1 12 lifjj 57
+21 25 mctse 82
+11 18 hjwed 12
+27 24 tsfhr 34
+25 18 uvnfs 24
+18 0 utabn 74
+11 13 nrdsb 44
+28 0 dezrt 85
+15 24 tslls 19
+8 3 sjbye 26
+17 13 gyreu 81
+14 24 cbufr 58
+18 5 xmcrs 89
+23 29 qjhqu 4
+25 22 gkhcn 71
+3 7 uzxll 93
+25 13 jzado 55
+24 25 wpxqx 13
+11 3 dcgtt 35
+4 3 ihzvf 20
+24 16 viult 28
+0 21 usirl 93
+5 28 fflao 94
+19 28 dovik 34
+27 2 vtgxn 21
+1 19 hluki 1
+1 17 ardwh 83
+20 3 yigcj 47
+1 20 iteys 83
+3 16 iekst 36
+17 9 xkqep 34
+18 0 aismx 71
+8 16 cuivs 25
+1 4 vhvqn 92
+2 19 papes 93
+2 0 brgby 37
+9 19 ttylm 77
+2 18 elysn 44
+17 26 mujem 63
+17 29 yhozg 89
+12 4 ucnhx 55
+2 gyreu foysy 
+24 kttil areen cuivs rzelf qobxv qobxv gjwlh vhvqn vtgxn mujem phytt kttil kozye wjwfo yzsgt tslls glwvf jzado gjwlh ttylm vrnlw hjwed lqhip lpncg 
+2 jzado qduky 
+6 oixjw nksfx oykzt iteys qjhqu areen 
+11 obcrd zweao usirl rzelf mujem dcgtt glwvf obcrd qobxv jmhoe bjfzo 
+2 dezrt qobxv 
+15 hluki papes oykzt qobxv rzelf mctse kttil tslls lqhip iteys vhvqn brgby elysn iteys rzelf 
+14 xtwwe ihzvf obcrd sjbye jzado vrnlw rzelf vhvqn qjhqu lngew qjhqu vtgxn oixjw nzwrp 
+2 zzhos hkzrc 
+7 elysn elysn hjwed lqhip ardwh ucnhx nksfx 
+11 brgby ihxyy nrdsb bjfzo vhvqn cuivs nksfx rzelf fflao mwdeg lifjj 
+21 zweao fjlus cuivs uheab nksfx lifjj usirl xtwwe ucnhx dwqac vtgxn ttylm rzelf tslls mrfkp obcrd dezrt cuivs obcrd dovik aebfe 
+11 cobzy mctse obcrd iteys cuivs yhozg phytt qjhqu mrfkp kozye zweao 
+20 iteys glwvf vtgxn tslls dcgtt nxkhc icwev dovik foysy oixjw lqhip oixjw hluki udxnt nksfx otkos phytt papes nxkhc qjhqu 
+16 mwdeg lifjj tslls fjlus cuivs gjwlh yigcj areen ihxyy mrfkp oykzt vrnlw vrnlw dwqac papes enqjq 
+14 jzado qobxv dovik areen xkqep dezrt uzxll areen xkqep vtgxn yzsgt vrnlw qobxv nxkhc 
+15 eanmg brgby zweao obcrd oykzt mwdeg yigcj dcgtt dezrt hkzrc jmhoe nxkhc kozye yzsgt eanmg 
+6 nxkhc qduky wpxqx uzxll zweao utabn 
+9 tsfhr wpxqx ihxyy zweao vhvqn kttil wjwfo yigcj lngew 
+19 foysy elysn cbufr qobxv nxkhc gyreu wsjxd lpncg qxtnc vrnlw jmhoe areen jzado yzsgt uzxll viult gjwlh lqhip papes 
+13 yigcj dcgtt cuivs cobzy cuivs vtgxn hjwed dezrt cuivs cobzy icwev cuivs lifjj 
+0 
+5 utabn ardwh usirl oykzt cuivs 
+20 xmcrs mctse papes otkos oykzt qjhqu yzsgt qjhqu iekst kozye fflao nrdsb areen wzwyd viult wjwfo papes oixjw mrfkp kozye 
+6 lngew xtwwe ardwh jmhoe sjbye vhvqn 
+16 dwqac nxkhc dwqac hluki nrdsb hzefh hzefh iekst otkos lpncg vtgxn xkqep jmhoe utabn dcgtt tsfhr 
+4 kozye eanmg uspmo uspmo 
+14 sjbye qduky lqhip qjhqu iekst iteys tsfhr usirl xtwwe mujem ardwh glwvf fflao qjhqu 
+19 wzwyd mctse lifjj lifjj nrdsb xmcrs elysn zzhos lpncg fflao lpncg jmhoe hzefh mctse udxnt ucnhx obcrd yzsgt cbufr 
+13 glwvf viult ttylm fjlus hluki vhvqn mctse hanuf ttylm enqjq xtwwe nxkhc qduky 
+24 yigcj gyreu kozye vtgxn iteys jmhoe utabn hanuf yzsgt xmcrs qxtnc sjbye vhvqn oykzt kttil hluki tslls xmcrs utabn tsfhr aebfe cbufr ihxyy ttylm 
+19 lqhip lqhip yhozg dcgtt fjlus nxkhc uvnfs wsjxd tsfhr aebfe kttil dcgtt ucnhx ihzvf uheab vhvqn hluki yhozg qxtnc 
+15 yirdl dwqac mujem uspmo dcgtt dovik lifjj gyreu nksfx wpxqx uvnfs mujem jmhoe vtgxn uzxll 
+16 iekst eanmg otkos qjhqu ttylm ihxyy qjhqu vrnlw ihxyy icwev rzelf hjwed foysy lpncg cuivs wjwfo 
+4 wzwyd iteys dovik vhvqn 
+16 glwvf glwvf mrfkp qduky lpncg fflao uheab mrfkp xmcrs yirdl vhvqn brgby dwqac iteys lqhip ardwh 
+5 vhvqn iteys sjbye fjlus wzwyd 
+16 dezrt hluki wsjxd ucnhx papes papes dwqac hjwed oixjw utabn obcrd cbufr oykzt kttil otkos xkqep 
+14 fjlus dovik yigcj dezrt cuivs lngew wjwfo obcrd qjhqu hjwed ardwh areen papes aebfe 
+1 foysy 
