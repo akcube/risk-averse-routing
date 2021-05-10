@@ -8,11 +8,11 @@ LDIR =lib
 
 LIBS=-lm
 
-_DEPS = heaps.h 
+_DEPS = hash.h graphs.h 
 
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = routing.o heaps.o 
+_OBJ = hash.o graphs.o routing.o 
 
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 

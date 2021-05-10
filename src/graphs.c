@@ -126,7 +126,7 @@ void output_data(Graph *self, int *dis){
     edge *roads = self->roads;
     char *r_names = self->r_names;
 
-    FILE *fptr = fopen("data/trafficmap.txt", "w+");
+    FILE *fptr = fopen("src/data/trafficmap.txt", "w+");
     if(!fptr){
         printf("Couldn't create temporary trafficmap. Insufficient memory/permissions.\n");
         exit(0);
