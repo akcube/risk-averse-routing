@@ -13,6 +13,8 @@
 #include "macro_utils.h"
 #include "heap_utils.h"
 
+// Concatenating function calls with DATA_TYPE for generalizing Heap using macros in macro_utils.h
+
 #ifndef HEAP
 	#define HEAP CAT2(heap_, DATA_TYPE)
 	#define __HEAPGETTOP CAT3(__, DATA_TYPE, __heap__top)
@@ -27,6 +29,7 @@
 	#define destroyHeap CAT3(destroy_, DATA_TYPE, _heap)
 #endif
 
+// Heap struct with data and pointers to heap functions
 
 typedef struct HEAP{
 	DATA_TYPE *arr;
@@ -38,6 +41,8 @@ typedef struct HEAP{
 	DATA_TYPE (*pop)(struct HEAP *heap);
 	bool (*empty)(struct HEAP *heap);
 } HEAP;
+
+//function prototypes
 
 void createHeap(uint32_t n, bool (*cmpfunc)(DATA_TYPE, DATA_TYPE), HEAP *heap) __attribute__((weak));
 void destroyHeap(HEAP *heap) __attribute__((weak));
@@ -59,6 +64,7 @@ void __swap(DATA_TYPE *a, DATA_TYPE *b){
 	*b = temp;
 }
 
+// Returns top element of the heap
 DATA_TYPE __HEAPGETTOP(HEAP *heap){
 	assert(heap->size >= 0);
 	return (heap->arr[0]);
@@ -77,6 +83,7 @@ void __HEAPIFY(int id, HEAP *h){
 	}
 }
 
+// Inserts elements to heap and resizes for table doubling
 void __HEAPPUSH(DATA_TYPE val, HEAP *heap){
 	if(heap->size == heap->table_size){
 		heap->table_size <<= 1;
@@ -121,6 +128,7 @@ void __HEAP_SIFTDOWN(int id, HEAP *h){
 	}
 }
 
+// Deletes the top element of Heap
 DATA_TYPE __HEAPPOP(HEAP *heap){
 	assert(heap->size > 0);
 	DATA_TYPE top = __HEAPGETTOP(heap);
@@ -130,6 +138,8 @@ DATA_TYPE __HEAPPOP(HEAP *heap){
 	return top;
 }
 
+
+//  Initializes variables with appropriate values and Allocates memory
 void createHeap(uint32_t n, bool (*cmpfunc)(DATA_TYPE, DATA_TYPE), HEAP *heap){
 	heap->arr = (DATA_TYPE*) malloc(sizeof(DATA_TYPE)*n);
 	heap->size = 0;
@@ -141,6 +151,7 @@ void createHeap(uint32_t n, bool (*cmpfunc)(DATA_TYPE, DATA_TYPE), HEAP *heap){
 	heap->empty = __EMPTY;
 }
 
+// Deallocates memory
 void destroyHeap(HEAP *heap){
 	free(heap->arr);
 	heap->size = 0;

@@ -11,6 +11,8 @@
 
 #include "macro_utils.h"
 
+// Concatenating function calls with DATA_TYPE for generalizing Vector using macros in macro_utils.h
+
 #ifndef VECTOR
 	#define VECTOR CAT2(vector_, DATA_TYPE)
 	#define __VECRESIZE CAT3(__, DATA_TYPE, __vec__resize)
@@ -24,6 +26,8 @@
 	#define createVector CAT3(create_, DATA_TYPE, _vector)
 	#define destroyVector CAT3(destroy_, DATA_TYPE, _vector)
 #endif
+
+// Vector struct with data and pointers to vector functions
 
 typedef struct VECTOR{
 	DATA_TYPE* arr;
@@ -39,6 +43,9 @@ typedef struct VECTOR{
     void (*reverse)(struct VECTOR *v);
 } VECTOR;
 
+
+// function prototypes
+
 void createVector(VECTOR* v, uint32_t n) __attribute__((weak));
 void destroyVector(VECTOR* v) __attribute__((weak));
 
@@ -51,12 +58,13 @@ void __VECERASE(VECTOR* v, uint32_t ind) __attribute__((weak));
 void __VECREVERSE(VECTOR *v) __attribute__((weak));;
 DATA_TYPE __VECPOPBACK(VECTOR* v) __attribute__((weak));
 
-
+// Resize function for table doubling
 void __VECRESIZE(VECTOR* v, uint32_t tab_size){
     v->arr = (DATA_TYPE*) realloc(v->arr, (tab_size)*(sizeof(DATA_TYPE)));
     v->table_size = tab_size;
 }
 
+// Inserts element at the end of vector
 void __VECPUSHBACK(VECTOR* v, DATA_TYPE data){
     
     if(v->cur_size == v->table_size)
@@ -69,16 +77,19 @@ uint32_t __VECGETSIZE(VECTOR* v){
     return v->cur_size;
 }
 
+// Returns element at index i in vector
 DATA_TYPE __VECGET(VECTOR* v, uint32_t i){
 	assert(i>=0 && i<v->cur_size);
     return v->arr[i];
 }
 
+// Sets element at index i in vector
 void __VECSET(VECTOR* v, DATA_TYPE data, uint32_t i){
    	assert(i>=0 && i<v->cur_size);
     v->arr[i] = data;
 }
 
+// Reverses a given vector in O(n)
 void __VECREVERSE(VECTOR *v){
     for(int i=0; i < (v->cur_size/2); i++){
         DATA_TYPE t = v->arr[i];
@@ -87,6 +98,7 @@ void __VECREVERSE(VECTOR *v){
     }
 }
 
+// Removes element at given index
 void __VECERASE(VECTOR* v, uint32_t ind){
     
     for(uint32_t i=ind;i<v->cur_size-1;i++)
@@ -98,6 +110,7 @@ void __VECERASE(VECTOR* v, uint32_t ind){
         __VECRESIZE(v, v->table_size>>1);
 }
 
+// Removes last element in the given vector
 DATA_TYPE __VECPOPBACK(VECTOR* v){
     assert(v->cur_size>=0);
     DATA_TYPE retVal = v->arr[v->cur_size-1];
@@ -105,6 +118,7 @@ DATA_TYPE __VECPOPBACK(VECTOR* v){
     return retVal;
 }
 
+//  Initializes variables with appropriate values and Allocates memory
 void createVector(VECTOR* v, uint32_t n){
     v->arr = (DATA_TYPE*)malloc(sizeof(DATA_TYPE)*n);
     assert(v->arr != NULL);
@@ -121,6 +135,7 @@ void createVector(VECTOR* v, uint32_t n){
     v->reverse = __VECREVERSE;
 }
 
+// Deallocates memory
 void destroyVector(VECTOR *v){
     free(v->arr);
     v->cur_size = v->table_size = 0;

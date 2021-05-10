@@ -23,7 +23,7 @@ Hnode = int(data[len(data)-1])
 HighList = [Hnode]
 
 directed = int(data[0])
-print(directed)
+
 if directed==0:
     G = nx.Graph()
 else:

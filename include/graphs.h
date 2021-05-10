@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 
+// Edge in the graph
 typedef struct edge{
     uint32_t to;
     uint32_t len;
@@ -27,6 +28,8 @@ pair make_pair(int a, int b);
 #define DATA_TYPE pair
 #include "heaps.inl"
 
+// Graph structure containg actual adjacency list of graph, hashtable
+// for names of edges, function pointers and other information about the graph
 typedef struct Graph{
 	vector_int *adj;
 	char *r_names;

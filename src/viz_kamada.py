@@ -23,7 +23,7 @@ Hnode = int(data[len(data)-1])
 HighList = [Hnode]
 
 directed = int(data[0])
-print(directed)
+
 if directed==0:
     G = nx.Graph()
 else:
@@ -99,7 +99,7 @@ if nlab==1:
 else:
     Ncol = '#000099'
 
-pos = nx.kamada_kawai_layout(G)
+pos = nx.kamada_kawai_layout(G)  # Requires scipy
 
 # Drawing graph using NetworkX and matplotlib
 
