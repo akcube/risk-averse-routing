@@ -44,6 +44,20 @@ void check_scanf(int CODE){
     }
 }
 
+FILE* create_path_file(bool undirected){
+    //Resets path file for safety
+    remove("src/data/path.txt");
+    FILE *pathptr = fopen("src/data/path.txt", "a");
+    if(!pathptr){
+        printf("Couldn't create temporary trafficmap. Insufficient memory/permissions.\n");
+        exit(0);
+    }
+
+    //Sets up path file
+    fprintf(pathptr, "%d\n", !undirected);
+    return pathptr;
+}
+
 int main(int argc, char *argv[])
 {
     // Define allowable arguments
@@ -56,14 +70,14 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    bool directed, isRouting = false;
+    bool undirected, isRouting = false;
     // Choose graph type
     switch (filter){
         case 'u':
-            directed = true;
+            undirected = true;
             break;
         case 'd':
-            directed = false;
+            undirected = false;
             break;
     }
 
@@ -91,7 +105,7 @@ int main(int argc, char *argv[])
 
     //Create graph
     Graph G;
-    create_graph(&G, intersections, roads, directed);
+    create_graph(&G, intersections, roads, undirected);
     G.read(&G, fptr);
     G.read_weights(&G, cars, fptr);
 
@@ -100,18 +114,9 @@ int main(int argc, char *argv[])
     create_pair_vector(&path, 5);
 
     //Outputs traffic data for graph visualizer
-    G.output(&G, NULL);
+    G.output(&G);
 
-    //Resets path file for safety
-    remove("src/data/path.txt");
-    FILE *pathptr = fopen("src/data/path.txt", "a");
-    if(!pathptr){
-        printf("Couldn't create temporary trafficmap. Insufficient memory/permissions.\n");
-        exit(0);
-    }
-    //Sets up path file
-    fprintf(pathptr, "%d\n", directed);
-
+    FILE *pathptr;
     do{
         //If routing not in progress ask for input
         if(!isRouting){
@@ -139,12 +144,20 @@ int main(int argc, char *argv[])
                     path.push_back(&path, i);
                 }
                 path.push_back(&path, i);
-                fprintf(pathptr, "%d ", path.pop_back(&path).first);
+                path.reverse(&path);
+
+                pathptr = create_path_file(undirected);
+                for(int i=0; i<path.size(&path); i++){
+                    fprintf(pathptr, "%d ", path.get(&path, i).first);
+                }
+
+                fprintf(pathptr, "%d ", destination);
                 fflush(pathptr);
+                path.reverse(&path);
                 isRouting = true;       
             }
             else{
-                printf("No such route exists. Try again.\n");
+                printf("No such route exists. Try again.\n\n");
                 isRouting = false;
             }
         }
@@ -154,7 +167,7 @@ int main(int argc, char *argv[])
 
             if(path.size(&path) <= 0){
                 isRouting = false;
-                printf("You have arrived at your destination.\n");
+                printf("You have arrived at your destination.\n\n");
                 continue;
             }
 
@@ -167,23 +180,19 @@ int main(int argc, char *argv[])
                 case 'n':
                 case 'N':
                     road = path.pop_back(&path);
-                    fprintf(pathptr, "%d ", road.first);
                     uint32_t stri = G.roads[road.second].stri;
                     printf("\nFrom node %d, travel via %s for %dm", road.first, &G.r_names[stri], G.roads[road.first].len);
-                    printf(" [%d paths left to cover.]\n", path.size(&path));
-                    fflush(pathptr);
+                    printf(" [%d paths left to cover.]\n\n", path.size(&path));
                 break;
 
                 case 'e':
                 case 'E':
                     while(path.size(&path) > 0){
                         road = path.pop_back(&path);
-                        fprintf(pathptr, "%d ", road.first);
                         uint32_t stri = G.roads[road.second].stri;
                         printf("\nFrom node %d, travel via %s for %dm", road.first, &G.r_names[stri], G.roads[road.first].len);
-                        printf(" [%d paths left to cover.]\n", path.size(&path));
-                        fflush(pathptr);
-                    }
+                        printf(" [%d paths left to cover.]\n\n", path.size(&path));
+                        }
                     break;
                 case 'g':
                     system("python3 src/viz_random.py");
@@ -194,6 +203,7 @@ int main(int argc, char *argv[])
             }
         }
     }while(yes_no != 'q' && yes_no != 'Q');
-
+    
+    fclose(pathptr);
     destroy_graph(&G);
 }

@@ -15,7 +15,7 @@ minw = 999999999
 textFile = open("src/data/path.txt", "r")
 data = textFile.read().split()
 
-for r in range(2,len(data)-1):
+for r in range(1,len(data)-1):
     pathList.append((int(data[r]),int(data[r+1])))
 
 Hnode = int(data[len(data)-1])

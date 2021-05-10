@@ -47,18 +47,19 @@ void graph_read(Graph *self, FILE *fptr){
         name = &(self->r_names[self->strl]);
         int RET_CODE;
         RET_CODE = fscanf(fptr, "%d %d %n%s%n %d", &from, &buff[i].to, &temp, name, &slen, &buff[i].len);
-        check_fscanf(RET_CODE);
+        check_fscanf(RET_CODE); 
         slen -= temp;
         buff[i].stri = self->strl;
         adj[from].push_back(&adj[from], i);
         road_to_id->insert(road_to_id, name, slen, i);
-
-        if(self->directed){
+        self->edges++;
+        if(self->undirected){
             buff[i+1].to = from;
             buff[i+1].len = buff[i].len;
             buff[i+1].stri = self->strl;
             from = buff[i].to;
             adj[from].push_back(&adj[from], i+1);
+            self->edges++;
             i++;
         }
         self->strl += slen+1;
@@ -90,13 +91,13 @@ int *dense_dijkstra(Graph *self, uint32_t s, pair *p){
         for(int i=0; i<adj[node].size(&adj[node]); i++){
             int e = adj[node].get(&adj[node], i);
             edge ed = self->roads[e];
-    
-            if(dis[node] + ed.len < dis[ed.to]){
+            uint32_t weight = (1LL*ed.len*121 + 1LL*ed.traffic*967)>>2;
+            if(dis[node] + weight < dis[ed.to]){
                 if(p){
                     p[ed.to].first = node;
                     p[ed.to].second = e;
                 }
-                dis[ed.to] = dis[node] + ed.len;
+                dis[ed.to] = dis[node] + weight;
             }
         }
     }
@@ -148,7 +149,7 @@ int *dijkstra(Graph *self, uint32_t s, pair *p){
 }
 
 //Outputs data for visualization
-void output_data(Graph *self, int *dis){
+void output_data(Graph *self){
     edge *roads = self->roads;
     char *r_names = self->r_names;
 
@@ -167,6 +168,7 @@ void output_data(Graph *self, int *dis){
             fflush(fptr);
         }
     }
+    fclose(fptr);
 }
 
 //Reads in traffic data and assigns weights to graph
@@ -181,9 +183,9 @@ void assign_weights(Graph *self, uint32_t cars, FILE *fptr){
             slen -= temp;
             uint32_t idx = road_to_id->get(road_to_id, road, slen);
             self->roads[idx].traffic++;
-            if(self->directed)
+            if(self->undirected)
                 self->roads[idx+1].traffic++;
-            self->max_traffic = max(self->max_traffic, self->roads[idx].traffic++);
+            self->max_traffic = max(self->max_traffic, self->roads[idx].traffic);
         }
     }
 }
@@ -195,17 +197,17 @@ char *getRoadName(Graph *self, uint32_t e){
 }
 
 //Graph constructor
-void create_graph(Graph *self, uint32_t n, uint32_t m, bool directed){
+void create_graph(Graph *self, uint32_t n, uint32_t m, bool undirected){
     self->size = n;
     self->edges = 0;
     self->e_lim = m;
     self->max_traffic = 0;
-    if(directed) self->e_lim *= 2;
+    if(undirected) self->e_lim *= 2;
     self->strl = 0;
     self->adj = calloc(n, sizeof(vector_int));
     self->r_names = calloc(1, 32 * self->e_lim);
     self->roads = calloc(1, sizeof(edge) * self->e_lim);
-    self->directed = directed;
+    self->undirected = undirected;
 
     for(int i=0; i<n; i++) 
         create_int_vector(&self->adj[i], 4);
