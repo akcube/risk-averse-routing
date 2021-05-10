@@ -46,6 +46,42 @@ void graph_read(Graph *self, FILE *fptr){
     }
 }
 
+int *dense_dijkstra(Graph *self, uint32_t s, int *p){
+    
+    bool *vis = calloc(1, sizeof(bool)*self->size);
+    int *dis = malloc(sizeof(int)*self->size);
+    const int INFTY = 999999999;
+    
+    for(int i=0; i<self->size; i++) dis[i] = INFTY;
+    
+    vector_int *adj = self->adj;
+    dis[s] = 0;
+    
+    if(p) p[s] = s;
+    
+    for(int j=0;j<n;j++){
+		int node = -1;
+		for(int i=0;i<n;i++){
+			if(vis[i]!=true && (node==-1 || dis[node]>dis[i])){
+				node = i;
+			}
+		}
+        vis[node] = true;
+
+        for(int i=0; i<adj[node].size(&adj[node]); i++){
+            int e = adj[node].get(&adj[node], i);
+            edge ed = self->roads[e];
+    
+            if(dis[node] + ed.len < dis[ed.to]){
+                if(p) p[ed.to] = node;
+                dis[ed.to] = dis[node] + ed.len;
+            }
+        }
+    }
+    free(vis);
+    return dis;
+}
+
 int *dijkstra(Graph *self, uint32_t s, pair *p){
     
     bool *vis = calloc(1, sizeof(bool)*self->size);

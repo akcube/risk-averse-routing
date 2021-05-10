@@ -12,7 +12,7 @@ minw = 999999999
 
 # Reading path from file
 
-textFile = open("pathData.txt", "r")
+textFile = open("data/path.txt", "r")
 data = textFile.read().split()
 
 for r in range(2,len(data)-1):
@@ -28,7 +28,7 @@ else:
 
 # Reading edge data from file
 
-with open("edgeData.txt") as curfile:
+with open("data/trafficmap.txt") as curfile:
     for line in curfile:
         fr, t, string, ln, wt = line.split()
         fro = int(fr)
