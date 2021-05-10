@@ -21,6 +21,13 @@ pair make_pair(int a, int b){
     return p;
 }
 
+void check_fscanf(int CODE){
+    if(CODE <= 0){
+        printf("Invalid input. Error.\n");
+        exit(0);
+    }
+}
+
 void graph_read(Graph *self, FILE *fptr){
     edge *buff = self->roads;
     char *name;
@@ -29,7 +36,9 @@ void graph_read(Graph *self, FILE *fptr){
     Hashtable *road_to_id = &(self->road_to_id);
     for(int i=self->edges; i<self->e_lim; i++){
         name = &(self->r_names[self->strl]);
-        fscanf(fptr, "%d %d %n%s%n %d", &from, &buff[i].to, &temp, name, &slen, &buff[i].len);
+        int RET_CODE;
+        RET_CODE = fscanf(fptr, "%d %d %n%s%n %d", &from, &buff[i].to, &temp, name, &slen, &buff[i].len);
+        check_fscanf(RET_CODE);
         slen -= temp;
         buff[i].stri = self->strl;
         adj[from].push_back(&adj[from], i);

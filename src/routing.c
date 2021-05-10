@@ -9,24 +9,32 @@
 #include "../include/vector.inl"
 
  /*   *   *   *   *   *   *
+Team 35:
 
-    num_intersections stores number of nodes / vertices in a graph 
-    num_streets stores number of edges in a graph
-    num_cars stores number of cars
+# Risk averse routing
 
-    garbage1 and garbage2 are for storing first and last input values in the data (not used in the code)
-    input array stores the input file name 
+Arguments
+    -d specifies that the graph input is for a directed graph
+    -u specifies that the graph input is for an undirected graph
+    Pass the name of the input file as a parameter as well after the -d/-u flag
 
-    yes_no is used to know whether the user wants to continue the program or exit 
-    decision is used to know whether the user wants to continue with the same input file 
-    flag is used for calling the functions to take a new input file if the decision is yes 
+Upon launch the program will ask you for your desired source and destination vertex. 
+Once input is given it will enter interactive mode.
 
-    Edge_Table stores starting vertex , ending vertex , name of the edge and weight of the edge
-    location1 stores the starting location vertex 
-    location2 stores the destination vertex
+Advance path
+    'n' will show the path to be taken from the current node along the 
+    shortest path to the destination node
 
+Show the entire path
+    'e' will list out all the paths to be taken from the current node to 
+    the destination node
+
+Visualize the map
+    'g' will graph the entire map according to mapped traffic data and will highlight 
+    the path covered so far with bold edges
 *   *   *   *   *   *   *   */
 
+//Error handles scanf input
 void check_scanf(int CODE){
     if(CODE <= 0){
         printf("Invalid input. Error.\n");
@@ -36,7 +44,6 @@ void check_scanf(int CODE){
 
 int main(int argc, char *argv[])
 {
-
     // Define allowable arguments
     char *filters = "du";
 
@@ -67,33 +74,44 @@ int main(int argc, char *argv[])
         fprintf(stderr, "Unable to open input file.\n");
         return 2;
     }
+
     // Read input
+    // intersections : no. of nodes
+    // roads: no. of edges
+    // cars: amount of traffic data
     int intersections, roads, cars, source, destination;
     char yes_no = 0;
 
+    // Read in file header input
     int RET_CODE;
     RET_CODE = fscanf(fptr, "%*d %d %d %d %*d", &intersections, &roads, &cars);
     check_scanf(RET_CODE);
 
+    //Create graph
     Graph G;
     create_graph(&G, intersections, roads, directed);
     G.read(&G, fptr);
     G.read_weights(&G, cars, fptr);
 
+    //Will store path after dijkstra
     vector_pair path;
     create_pair_vector(&path, 5);
 
+    //Outputs traffic data for graph visualizer
     G.output(&G, NULL);
 
+    //Resets path file for safety
     remove("src/data/path.txt");
     FILE *pathptr = fopen("src/data/path.txt", "a");
     if(!pathptr){
         printf("Couldn't create temporary trafficmap. Insufficient memory/permissions.\n");
         exit(0);
     }
-
+    //Sets up path file
     fprintf(pathptr, "%d\n", directed);
+
     do{
+        //If routing not in progress ask for input
         if(!isRouting){
             printf("Source vertex: ");
             RET_CODE = scanf("%d", &source);
@@ -102,9 +120,12 @@ int main(int argc, char *argv[])
             RET_CODE = scanf("%d", &destination);
             check_scanf(RET_CODE);
             pair *p = calloc(1, sizeof(pair)*intersections);
+
+            //Run dijkstra
             int *dis = G.dijkstra(&G, source, p);
             isRouting = true;
 
+            //Setup path vector or say no path exists
             if(dis[destination] != INFTY){
                 pair i;
                 for(i=p[destination]; i.first != source; i=p[i.first]){
@@ -121,7 +142,7 @@ int main(int argc, char *argv[])
             }
         }
         else{
-            // Asks whether the user want to continue the program or exit it
+            // Enter interactive mode
             printf("(routing) ");
 
             if(path.size(&path) <= 0){
@@ -133,6 +154,7 @@ int main(int argc, char *argv[])
             RET_CODE = scanf(" %c", &yes_no);
             check_scanf(RET_CODE);
 
+            // Give interactive output according to user input
             pair road;
             switch(yes_no){
                 case 'n':
