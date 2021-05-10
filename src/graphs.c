@@ -4,10 +4,12 @@
 #include <stdint.h>
 #include "../include/graphs.h"
 
+//Cmpfunc for min-heap
 bool cmpfunc(pair a, pair b){
     return a.second < b.second;
 }
 
+//Util functions
 void swap(int *a, int *b){
     int t = *a;
     *a = *b;
@@ -21,6 +23,7 @@ pair make_pair(int a, int b){
     return p;
 }
 
+//Error handling util
 void check_fscanf(int CODE){
     if(CODE <= 0){
         printf("Invalid input. Error.\n");
@@ -28,12 +31,18 @@ void check_fscanf(int CODE){
     }
 }
 
+//Reads the graph from hashcode formatted input file
+
 void graph_read(Graph *self, FILE *fptr){
+
+    //Cleaner smaller variable names
     edge *buff = self->roads;
     char *name;
     vector_int *adj = self->adj;
     uint32_t from, slen, temp;
     Hashtable *road_to_id = &(self->road_to_id);
+
+    //Read in input line by line and store to graph ADT
     for(int i=self->edges; i<self->e_lim; i++){
         name = &(self->r_names[self->strl]);
         int RET_CODE;
@@ -43,6 +52,7 @@ void graph_read(Graph *self, FILE *fptr){
         buff[i].stri = self->strl;
         adj[from].push_back(&adj[from], i);
         road_to_id->insert(road_to_id, name, slen, i);
+
         if(self->directed){
             buff[i+1].to = from;
             buff[i+1].len = buff[i].len;
@@ -55,7 +65,8 @@ void graph_read(Graph *self, FILE *fptr){
     }
 }
 
-int *dense_dijkstra(Graph *self, uint32_t s, int *p){
+//Dijkstra which has better complexity for denser graphs
+int *dense_dijkstra(Graph *self, uint32_t s, pair *p){
     
     bool *vis = calloc(1, sizeof(bool)*self->size);
     int *dis = malloc(sizeof(int)*self->size);
@@ -65,7 +76,7 @@ int *dense_dijkstra(Graph *self, uint32_t s, int *p){
     vector_int *adj = self->adj;
     dis[s] = 0;
     
-    if(p) p[s] = s;
+    if(p) p[s].first = s;
     
     for(int j=0;j<self->size;j++){
 		int node = -1;
@@ -81,7 +92,10 @@ int *dense_dijkstra(Graph *self, uint32_t s, int *p){
             edge ed = self->roads[e];
     
             if(dis[node] + ed.len < dis[ed.to]){
-                if(p) p[ed.to] = node;
+                if(p){
+                    p[ed.to].first = node;
+                    p[ed.to].second = e;
+                }
                 dis[ed.to] = dis[node] + ed.len;
             }
         }
@@ -90,6 +104,7 @@ int *dense_dijkstra(Graph *self, uint32_t s, int *p){
     return dis;
 }
 
+//Dijkstra which has better complexity for sparse graphs
 int *dijkstra(Graph *self, uint32_t s, pair *p){
     
     bool *vis = calloc(1, sizeof(bool)*self->size);
@@ -131,6 +146,7 @@ int *dijkstra(Graph *self, uint32_t s, pair *p){
     return dis;
 }
 
+//Outputs data for visualization
 void output_data(Graph *self, int *dis){
     edge *roads = self->roads;
     char *r_names = self->r_names;
@@ -152,6 +168,7 @@ void output_data(Graph *self, int *dis){
     }
 }
 
+//Reads in traffic data and assigns weights to graph
 void assign_weights(Graph *self, uint32_t cars, FILE *fptr){
     uint32_t path_len, temp, slen;
     char road[32];
@@ -170,11 +187,13 @@ void assign_weights(Graph *self, uint32_t cars, FILE *fptr){
     }
 }
 
+//Returns the name of the road given edge index e
 char *getRoadName(Graph *self, uint32_t e){
     uint32_t stri = self->roads[e].stri;
     return &(self->r_names[stri]);
 }
 
+//Graph constructor
 void create_graph(Graph *self, uint32_t n, uint32_t m, bool directed){
     self->size = n;
     self->edges = 0;
@@ -195,6 +214,7 @@ void create_graph(Graph *self, uint32_t n, uint32_t m, bool directed){
     self->dijkstra = dijkstra;
     self->read_weights = assign_weights;
     self->output = output_data;
+    self->dense_dijkstra = dense_dijkstra;
     self->getRoadName = getRoadName;
 }
 

@@ -47,6 +47,8 @@ typedef struct Graph{
 	void (*read_weights)(struct Graph *self, uint32_t cars, FILE *fptr);
 	void (*output)(struct Graph *self, int *dis);
 	char* (*getRoadName)(struct Graph *self, uint32_t edge);
+	int* (*dense_dijkstra)(struct Graph *self, uint32_t s, pair *p);
+
 } Graph;
 
 void create_graph(Graph *self, uint32_t n, uint32_t m, bool directed);

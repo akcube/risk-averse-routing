@@ -4,6 +4,8 @@
 #include<stdint.h>
 #include<stdbool.h>
 
+#define DEAD 0xFEAB4CD40A5C693C
+
 typedef struct node{
 	void *key;
     int value;

@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+//djb2 hash function
 uint64_t hash(void *data, uint32_t size){
     
     uint64_t hash = 5381;
@@ -16,6 +17,7 @@ uint64_t hash(void *data, uint32_t size){
     return hash;
 }
 
+//Standard insert into hashtable using quadratic probing
 bool insert(Hashtable *self, void *key, uint32_t size, int val)
 {
     uint64_t hashval;
@@ -33,19 +35,21 @@ bool insert(Hashtable *self, void *key, uint32_t size, int val)
     return false;
 }
 
+//Standard retrieval from hashtable
 int get(Hashtable *self, void *key, uint32_t size){
     uint64_t hashval;
     hashval = hash(key, size) & (self->table_size-1);
 
     for(int k=0; ; k++){
         uint64_t index = (hashval + k*k) & (self->table_size-1);
-        if(!self->buff[index].key) 
+        if(((uint64_t) self->buff[index].key) != DEAD && !self->buff[index].key) 
             return -1;
         if(memcmp(self->buff[index].key, key, size)==0)
             return self->buff[index].value;
     }
 }
 
+//Removal from hashtable
 int delete(Hashtable *self, void *key, uint32_t size){
     uint64_t hashval;
     hashval = hash(key, size) & (self->table_size-1);
@@ -56,12 +60,13 @@ int delete(Hashtable *self, void *key, uint32_t size){
             return -1;
         if(memcmp(self->buff[index].key, key, size)==0){
             free(self->buff[index].key);
-            self->buff[index].key = NULL;
+            self->buff[index].key = (void*) DEAD;
             return 0;
         }
     }
 }
 
+//Constructor
 void create_hash_table(Hashtable *self, uint32_t table_size){
     table_size = (1 << (32 - __builtin_clz (table_size - 1)));
     self->table_size = table_size;
@@ -73,6 +78,7 @@ void create_hash_table(Hashtable *self, uint32_t table_size){
     self->erase = delete;
 }
 
+//Destructor
 void destroy_hash_table(Hashtable *self){
     free(self->buff);
     self->element_count = 0;

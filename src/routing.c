@@ -37,6 +37,8 @@ Visualize the map
 //Error handles scanf input
 void check_scanf(int CODE){
     if(CODE <= 0){
+        char ch = getchar();
+        if(ch=='q' || ch=='Q') exit(0);
         printf("Invalid input. Error.\n");
         exit(0);
     }
@@ -57,10 +59,10 @@ int main(int argc, char *argv[])
     bool directed, isRouting = false;
     // Choose graph type
     switch (filter){
-        case 'd':
+        case 'u':
             directed = true;
             break;
-        case 'u':
+        case 'd':
             directed = false;
             break;
     }
@@ -121,8 +123,13 @@ int main(int argc, char *argv[])
             check_scanf(RET_CODE);
             pair *p = calloc(1, sizeof(pair)*intersections);
 
-            //Run dijkstra
-            int *dis = G.dijkstra(&G, source, p);
+            //Run dijkstra and pick complexity dynamically
+            int *dis;
+            if(G.e_lim <= G.size*G.size/12)
+                dis = G.dijkstra(&G, source, p);
+            else
+                dis = G.dense_dijkstra(&G, source, p);
+
             isRouting = true;
 
             //Setup path vector or say no path exists
@@ -179,9 +186,11 @@ int main(int argc, char *argv[])
                     }
                     break;
                 case 'g':
-                case 'G':
                     system("python3 src/viz_random.py");
-                break;
+                    break;
+                case 'G':
+                    system("python3 src/viz_kamada.py");
+                    break;
             }
         }
     }while(yes_no != 'q' && yes_no != 'Q');
