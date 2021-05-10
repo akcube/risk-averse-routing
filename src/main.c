@@ -100,6 +100,7 @@ int main(int argc, char *argv[])
                 }
                 path.push_back(&path, i);
                 fprintf(pathptr, "%d ", path.pop_back(&path).first);
+                fflush(pathptr);
                 isRouting = true;       
             }
             else{
@@ -124,6 +125,7 @@ int main(int argc, char *argv[])
                 case 'N':
                     road = path.pop_back(&path);
                     fprintf(pathptr, "%d ", road.first);
+                    fflush(pathptr);
                     system("python3 viz_random.py");
                 break;
             }
