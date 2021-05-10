@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 #include "../include/graphs.h"
@@ -89,13 +90,20 @@ int *dijkstra(Graph *self, uint32_t s, pair *p){
 void output_data(Graph *self, int *dis){
     edge *roads = self->roads;
     char *r_names = self->r_names;
+
+    FILE *fptr = fopen("data/trafficmap.txt", "w+");
+    if(!fptr){
+        printf("Couldn't create temporary trafficmap. Insufficient memory/permissions.\n");
+        exit(0);
+    }
     for(int i=0; i<self->size; i++){
         vector_int *adj = self->adj;
         for(int j=0; j < adj[i].size(&adj[i]); j++){
             uint32_t idx = adj[i].get(&adj[i], j);
             uint32_t stri = roads[idx].stri;
             uint32_t traffic = ((double)roads[idx].traffic/self->max_traffic)*100;
-            printf("%d %d %s %d %d\n", i, roads[idx].to, &(r_names[stri]), roads[idx].len, traffic);
+            fprintf(fptr, "%d %d %s %d %d\n", i, roads[idx].to, &(r_names[stri]), roads[idx].len, traffic);
+            fflush(fptr);
         }
     }
 }
@@ -132,7 +140,7 @@ void create_graph(Graph *self, uint32_t n, uint32_t m, bool directed){
     self->strl = 0;
     self->adj = calloc(n, sizeof(vector_int));
     self->r_names = calloc(1, 32 * self->e_lim);
-    self->roads = malloc(sizeof(edge) * self->e_lim);
+    self->roads = calloc(1, sizeof(edge) * self->e_lim);
     self->directed = directed;
 
     for(int i=0; i<n; i++) 
