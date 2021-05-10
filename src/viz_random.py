@@ -12,19 +12,18 @@ minw = 999999999
 
 # Reading path from file
 
-textFile = open("data/path.txt", "r")
-
+textFile = open("src/data/path.txt", "r")
 data = textFile.read().split()
 
 for r in range(2,len(data)-1):
     pathList.append((int(data[r]),int(data[r+1])))
 
-# Hnode = int(data[1])
+Hnode = int(data[len(data)-1])
 
-# directed = int(data[0])
+HighList = [Hnode]
 
-directed = 0
-
+directed = int(data[0])
+print(directed)
 if directed==0:
     G = nx.Graph()
 else:
@@ -32,7 +31,7 @@ else:
 
 # Reading edge data from file
 
-with open("data/trafficmap.txt") as curfile:
+with open("src/data/trafficmap.txt") as curfile:
     for line in curfile:
         fr, t, string, ln, wt = line.split()
         fro = int(fr)
@@ -107,6 +106,7 @@ pos = nx.random_layout(G)
 nx.draw_networkx(G,pos,node_size=nodeSize,with_labels=nlab,edge_color=col,node_color=Ncol)
 nx.draw_networkx_edges(G,pos,width=3,edgelist=pathList,edge_color=pathCol)
 nx.draw_networkx_edges(G,pos,width=3,alpha=0.3,edgelist=pathList,edge_color='k')
+nx.draw_networkx_nodes(G,pos,nodelist=HighList,alpha=0.5,node_size=nodeSize,node_color='k')
 if len(G.edges())<100:
     nx.draw_networkx_edge_labels(G,pos,edge_labels=label)
 plt.axis("off")
